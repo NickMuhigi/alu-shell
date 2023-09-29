@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
-# Write a Bash script that displays the content of the file /etc/passwd.
-# Your script should only display:
-# username
-# user id
-# Home directory path for the user
-# Requirements:
-# You must use the while loop (for and until are forbidden)
-# Define the field separator as a colon (:)
+# Write a Bash script that displays the content of the file /etc/passwd
 IFS=':'
 while read -r usr pswd uid gid uinfo hd csh
 do

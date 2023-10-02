@@ -1,50 +1,28 @@
 #!/usr/bin/env bash
-# Define the path to the manage_my_process script
-MANAGE_SCRIPT="/path/to/manage_my_process.sh"
-
-# Define the PID file path
-PID_FILE="/var/run/my_process.pid"
-
-# Function to start the manage_my_process script
-start_process() {
-  if [ -e "$PID_FILE" ]; then
-    echo "manage_my_process is already running. Use 'restart' to restart it."
-  else
-    "$MANAGE_SCRIPT" &
-    echo "$!" > "$PID_FILE"
-    echo "manage_my_process started"
-  fi
-}
-
-# Function to stop the manage_my_process script
-stop_process() {
-  if [ -e "$PID_FILE" ]; then
-    PID=$(cat "$PID_FILE")
-    kill "$PID"
-    rm -f "$PID_FILE"
-    echo "manage_my_process stopped"
-  else
-    echo "manage_my_process is not running."
-  fi
-}
-
-# Check for the argument passed
-case "$1" in
-  "start")
-    start_process
-    ;;
-  "stop")
-    stop_process
-    ;;
-  "restart")
-    stop_process
-    start_process
-    echo "manage_my_process restarted"
-    ;;
-  *)
-    echo "Usage: $0 {start|stop|restart}"
-    exit 1
-    ;;
-esac
-
-exit 0
+#Management of Bash
+if [[ "$#" == "1" ]]; then 
+if [[ "$1" == "start" ]]; then
+./manage_my_process &
+echo "$!" > /var/run/my_process.pid
+echo "manage_my_process started"
+elif [[ "$1" == "stop" ]]; then 
+if test -f "/var/run/my_process.pid"; then
+kill "$(cat/var/run/my_process.pid)"
+fi
+rm /var/run/my_process.pid
+echo "manage_my_process stopped"
+elif [[ "$1" == "restart" ]]; then 
+# stop program 
+if test -f "/var/run/my_process.pid"; then
+kill "$(cat /var/run/my_process.pid)"
+fi
+# start program
+./manage_my_process &
+echo "$1" > /var/run/my_process.pid
+echo "manage_my_process restarted"
+else
+echo "usage: manage_my_process {start|stop|restart}"
+fi 
+else
+echo "usage: manage_my_process {start|stop|restart}"
+fi
